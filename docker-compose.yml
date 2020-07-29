@@ -1,10 +1,10 @@
 version: '3'
 
 networks:
-  laravel:
+  network:
 
 services:
-  site:
+  web:
     image: nginx:stable-alpine
     container_name: nginx
     ports:
@@ -16,7 +16,7 @@ services:
       - php
       - mysql
     networks:
-      - laravel
+      - network
 
   mysql:
     image: mysql:5.7.29
@@ -33,7 +33,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - laravel
+      - network
 
   php:
     build:
@@ -45,7 +45,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - laravel
+      - network
 
   composer:
     image: composer:latest
@@ -56,7 +56,7 @@ services:
     depends_on:
       - php
     networks:
-      - laravel
+      - network
 
   npm:
     image: node:13.7
@@ -78,4 +78,4 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - laravel
+      - network
